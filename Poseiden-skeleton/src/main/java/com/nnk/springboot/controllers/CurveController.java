@@ -1,26 +1,34 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.CurvePoint;
-
-import com.nnk.springboot.service.CurvePointService;
-
+import com.nnk.springboot.services.CurvePointService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class CurveController {
 
+    private final CurvePointService curvePointService;
+
     @Autowired
-    private CurvePointService curvePointService;
+    public CurveController(CurvePointService curvePointService) {
+        this.curvePointService = curvePointService;
+    }
 
     @RequestMapping("/curvePoint/list")
-    public String home(Model model) {
+    public String home(Model model, HttpServletRequest request) {
         model.addAttribute("curvePoints", curvePointService.findAll());
+        model.addAttribute("username", request.getRemoteUser());
         return "curvePoint/list";
     }
 
@@ -31,19 +39,21 @@ public class CurveController {
 
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-        if (!result.hasErrors()) {
-            curvePointService.save(curvePoint);
-            return "redirect:/curvePoint/list";
+        if (result.hasErrors()) {
+            return "curvePoint/add";
         }
-        return "curvePoint/add";
+        curvePointService.save(curvePoint);
+        return "redirect:/curvePoint/list";
     }
 
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        CurvePoint curvePoint = curvePointService.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid curve point Id: " + id));
-        model.addAttribute("curvePoint", curvePoint);
-        return "curvePoint/update";
+        Optional<CurvePoint> curvePoint = curvePointService.findById(id);
+        if (curvePoint.isPresent()) {
+            model.addAttribute("curvePoint", curvePoint.get());
+            return "curvePoint/update";
+        }
+        return "redirect:/curvePoint/list";
     }
 
     @PostMapping("/curvePoint/update/{id}")
@@ -53,8 +63,6 @@ public class CurveController {
             curvePoint.setId(id);
             return "curvePoint/update";
         }
-
-        curvePoint.setId(id);
         curvePointService.save(curvePoint);
         return "redirect:/curvePoint/list";
     }

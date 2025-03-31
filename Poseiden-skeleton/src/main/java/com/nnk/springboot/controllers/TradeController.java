@@ -1,26 +1,35 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Trade;
-
-import com.nnk.springboot.service.TradeService;
-
+import com.nnk.springboot.services.TradeService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class TradeController {
 
+    private final TradeService tradeService;
+
     @Autowired
-    private TradeService tradeService;
+    public TradeController(TradeService tradeService) {
+        this.tradeService = tradeService;
+    }
 
     @RequestMapping("/trade/list")
-    public String home(Model model) {
+    public String home(Model model, HttpServletRequest request)
+    {
         model.addAttribute("trades", tradeService.findAll());
+        model.addAttribute("username", request.getRemoteUser());
         return "trade/list";
     }
 
@@ -31,19 +40,21 @@ public class TradeController {
 
     @PostMapping("/trade/validate")
     public String validate(@Valid Trade trade, BindingResult result, Model model) {
-        if (!result.hasErrors()) {
-            tradeService.save(trade);
-            return "redirect:/trade/list";
+        if (result.hasErrors()) {
+            return "trade/add";
         }
-        return "trade/add";
+        tradeService.save(trade);
+        return "redirect:/trade/list";
     }
 
     @GetMapping("/trade/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        Trade trade = tradeService.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid trade Id: " + id));
-        model.addAttribute("trade", trade);
-        return "trade/update";
+        Optional<Trade> trade = tradeService.findById(id);
+        if (trade.isPresent()) {
+            model.addAttribute("trade", trade.get());
+            return "trade/update";
+        }
+        return "redirect:/trade/list";
     }
 
     @PostMapping("/trade/update/{id}")
@@ -53,8 +64,6 @@ public class TradeController {
             trade.setTradeId(id);
             return "trade/update";
         }
-
-        trade.setTradeId(id);
         tradeService.save(trade);
         return "redirect:/trade/list";
     }

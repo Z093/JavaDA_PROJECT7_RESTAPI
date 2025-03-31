@@ -1,245 +1,107 @@
 package com.nnk.springboot.domain;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
+/**
+ * Entity representing a trade.
+ */
 @Entity
-@Table(name = "Trade")
+@Table(name = "trade")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Trade {
-
+    // Unique identifier for the trade
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TradeId")
     private Integer tradeId;
 
-    @Column(name = "account", nullable = false, length = 30)
+    // Account associated with the trade
+    @NotBlank(message = "Account is mandatory")
+    @Column(name = "account")
     private String account;
 
-    @Column(name = "type", nullable = false, length = 30)
+    // Type of trade (e.g. buy, sell)
+    @NotBlank(message = "Type is mandatory")
+    @Column(name = "type")
     private String type;
 
+    // Quantity of the security being bought
     @Column(name = "buyQuantity")
     private Double buyQuantity;
 
+    // Quantity of the security being sold
     @Column(name = "sellQuantity")
     private Double sellQuantity;
 
+    // Price at which the security is being bought
     @Column(name = "buyPrice")
     private Double buyPrice;
 
+    // Price at which the security is being sold
     @Column(name = "sellPrice")
     private Double sellPrice;
 
+    // Date on which the trade was executed
     @Column(name = "tradeDate")
-    private LocalDateTime tradeDate;
+    private Timestamp tradeDate;
 
-    @Column(name = "security", length = 125)
+    // Security being traded (e.g. stock, bond)
+    @Column(name = "security")
     private String security;
 
-    @Column(name = "status", length = 10)
+    // Status of the trade (e.g. pending, executed)
+    @Column(name = "status")
     private String status;
 
-    @Column(name = "trader", length = 125)
+    // Trader who executed the trade
+    @Column(name = "trader")
     private String trader;
 
-    @Column(name = "benchmark", length = 125)
+    // Benchmark used for the trade
+    @Column(name = "benchmark")
     private String benchmark;
 
-    @Column(name = "book", length = 125)
+    // Book in which the trade is recorded
+    @Column(name = "book")
     private String book;
 
-    @Column(name = "creationName", length = 125)
+    // Name of the user who created the trade
+    @Column(name = "creationName")
     private String creationName;
 
+    // Date on which the trade was created
     @Column(name = "creationDate")
-    private LocalDateTime creationDate;
+    private Timestamp creationDate;
 
-    @Column(name = "revisionName", length = 125)
+    // Name of the user who last revised the trade
+    @Column(name = "revisionName")
     private String revisionName;
 
+    // Date on which the trade was last revised
     @Column(name = "revisionDate")
-    private LocalDateTime revisionDate;
+    private Timestamp revisionDate;
 
-    @Column(name = "dealName", length = 125)
+    // Name of the deal associated with the trade
+    @Column(name = "dealName")
     private String dealName;
 
-    @Column(name = "dealType", length = 125)
+    // Type of deal associated with the trade
+    @Column(name = "dealType")
     private String dealType;
 
-    @Column(name = "sourceListId", length = 125)
+    // ID of the source list associated with the trade
+    @Column(name = "sourceListId")
     private String sourceListId;
 
-    @Column(name = "side", length = 125)
+    // Side of the trade (e.g. buy, sell)
+    @Column(name = "side")
     private String side;
-
-    // Getters and Setters
-    public Integer getTradeId() {
-        return tradeId;
-    }
-
-    public void setTradeId(Integer tradeId) {
-        this.tradeId = tradeId;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Double getBuyQuantity() {
-        return buyQuantity;
-    }
-
-    public void setBuyQuantity(Double buyQuantity) {
-        this.buyQuantity = buyQuantity;
-    }
-
-    public Double getSellQuantity() {
-        return sellQuantity;
-    }
-
-    public void setSellQuantity(Double sellQuantity) {
-        this.sellQuantity = sellQuantity;
-    }
-
-    public Double getBuyPrice() {
-        return buyPrice;
-    }
-
-    public void setBuyPrice(Double buyPrice) {
-        this.buyPrice = buyPrice;
-    }
-
-    public Double getSellPrice() {
-        return sellPrice;
-    }
-
-    public void setSellPrice(Double sellPrice) {
-        this.sellPrice = sellPrice;
-    }
-
-    public LocalDateTime getTradeDate() {
-        return tradeDate;
-    }
-
-    public void setTradeDate(LocalDateTime tradeDate) {
-        this.tradeDate = tradeDate;
-    }
-
-    public String getSecurity() {
-        return security;
-    }
-
-    public void setSecurity(String security) {
-        this.security = security;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getTrader() {
-        return trader;
-    }
-
-    public void setTrader(String trader) {
-        this.trader = trader;
-    }
-
-    public String getBenchmark() {
-        return benchmark;
-    }
-
-    public void setBenchmark(String benchmark) {
-        this.benchmark = benchmark;
-    }
-
-    public String getBook() {
-        return book;
-    }
-
-    public void setBook(String book) {
-        this.book = book;
-    }
-
-    public String getCreationName() {
-        return creationName;
-    }
-
-    public void setCreationName(String creationName) {
-        this.creationName = creationName;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public String getRevisionName() {
-        return revisionName;
-    }
-
-    public void setRevisionName(String revisionName) {
-        this.revisionName = revisionName;
-    }
-
-    public LocalDateTime getRevisionDate() {
-        return revisionDate;
-    }
-
-    public void setRevisionDate(LocalDateTime revisionDate) {
-        this.revisionDate = revisionDate;
-    }
-
-    public String getDealName() {
-        return dealName;
-    }
-
-    public void setDealName(String dealName) {
-        this.dealName = dealName;
-    }
-
-    public String getDealType() {
-        return dealType;
-    }
-
-    public void setDealType(String dealType) {
-        this.dealType = dealType;
-    }
-
-    public String getSourceListId() {
-        return sourceListId;
-    }
-
-    public void setSourceListId(String sourceListId) {
-        this.sourceListId = sourceListId;
-    }
-
-    public String getSide() {
-        return side;
-    }
-
-    public void setSide(String side) {
-        this.side = side;
-    }
 }
-

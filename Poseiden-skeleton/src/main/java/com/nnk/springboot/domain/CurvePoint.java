@@ -1,24 +1,30 @@
 package com.nnk.springboot.domain;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "CurvePoint")
+@Table(name = "curvepoint")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CurvePoint {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Integer id;
 
     @Column(name = "CurveId")
-    private Byte curveId;
+    private Integer curveId;
 
     @Column(name = "asOfDate")
-    private LocalDateTime asOfDate;
-
+    private Timestamp asOfDate;
+    
     @Column(name = "term")
     private Double term;
 
@@ -26,55 +32,5 @@ public class CurvePoint {
     private Double value;
 
     @Column(name = "creationDate")
-    private LocalDateTime creationDate;
-
-    // Getters and Setters
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Byte getCurveId() {
-        return curveId;
-    }
-
-    public void setCurveId(Byte curveId) {
-        this.curveId = curveId;
-    }
-
-    public LocalDateTime getAsOfDate() {
-        return asOfDate;
-    }
-
-    public void setAsOfDate(LocalDateTime asOfDate) {
-        this.asOfDate = asOfDate;
-    }
-
-    public Double getTerm() {
-        return term;
-    }
-
-    public void setTerm(Double term) {
-        this.term = term;
-    }
-
-    public Double getValue() {
-        return value;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
+    private Timestamp creationDate;
 }
-
