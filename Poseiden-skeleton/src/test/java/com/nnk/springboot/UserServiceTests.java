@@ -69,4 +69,5 @@ public class UserServiceTests {
         Assert.assertFalse(userService.findById(updatedUser.getId()).isPresent());
     }
 }
+
 */

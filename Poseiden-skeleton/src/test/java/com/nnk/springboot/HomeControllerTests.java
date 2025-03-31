@@ -1,4 +1,4 @@
-/*
+
 package com.nnk.springboot;
 
 import org.junit.Test;
@@ -24,9 +24,9 @@ public class HomeControllerTests {
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void testHomePage() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("home"));
+        mockMvc.perform(get("/home"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/bidList/list"));
     }
 
     @Test
@@ -45,4 +45,4 @@ public class HomeControllerTests {
                 .andExpect(redirectedUrl("/bidList/list"));
     }
 }
-*/
+

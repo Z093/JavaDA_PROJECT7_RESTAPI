@@ -1,4 +1,4 @@
-/*
+
 package com.nnk.springboot;
 
 import org.junit.Test;
@@ -54,4 +54,4 @@ public class LoginControllerTests {
                 .andExpect(view().name("403"));
     }
 }
-*/
+

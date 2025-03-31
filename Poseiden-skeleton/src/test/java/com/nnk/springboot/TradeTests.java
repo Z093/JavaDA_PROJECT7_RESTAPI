@@ -1,4 +1,3 @@
-/*
 package com.nnk.springboot;
 
 import com.nnk.springboot.domain.Trade;
@@ -22,8 +21,9 @@ public class TradeTests {
 
 	@Test
 	public void tradeTest() {
-		Trade trade = new Trade("Trade Account", "Type");
-
+		Trade trade = new Trade();
+		trade.setAccount("Trade Account");
+		trade.setType("Type");
 		// Save
 		trade = tradeRepository.save(trade);
 		Assert.assertNotNull(trade.getTradeId());
@@ -45,4 +45,4 @@ public class TradeTests {
 		Assert.assertFalse(tradeList.isPresent());
 	}
 }
-*/
+

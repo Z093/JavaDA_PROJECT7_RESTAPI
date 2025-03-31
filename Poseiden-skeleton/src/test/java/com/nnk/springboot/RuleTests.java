@@ -1,4 +1,3 @@
-/*
 package com.nnk.springboot;
 
 import com.nnk.springboot.domain.RuleName;
@@ -22,9 +21,10 @@ public class RuleTests {
 
 	@Test
 	public void ruleTest() {
-		RuleName rule = new RuleName("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
+        RuleName rule = new RuleName(1, "Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
 
-		// Save
+
+        // Save
 		rule = ruleNameRepository.save(rule);
 		Assert.assertNotNull(rule.getId());
 		Assert.assertTrue(rule.getName().equals("Rule Name"));
@@ -45,4 +45,4 @@ public class RuleTests {
 		Assert.assertFalse(ruleList.isPresent());
 	}
 }
-*/
+
