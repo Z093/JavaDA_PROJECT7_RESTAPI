@@ -20,15 +20,18 @@ public class CurvePoint {
     private Integer id;
 
     @Column(name = "CurveId")
+    @NotNull(message = "CurveId is mandatory")
     private Integer curveId;
 
     @Column(name = "asOfDate")
     private Timestamp asOfDate;
     
     @Column(name = "term")
+    @NotNull(message = "Term is mandatory")
     private Double term;
 
     @Column(name = "value")
+    @NotNull(message = "Value is mandatory")
     private Double value;
 
     @Column(name = "creationDate")
