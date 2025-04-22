@@ -36,6 +36,15 @@ public class UserController {
 
     @PostMapping("/user/validate")
     public String validate(@Valid User user, BindingResult result, Model model) {
+        // Validation personnalisée du mot de passe
+        String password = user.getPassword();
+        String passwordPattern = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+
+        if (!password.matches(passwordPattern)) {
+            result.rejectValue("password", "error.user",
+                    "Password must be at least 8 characters long, contain one uppercase letter, one digit and one special character");
+        }
+
         if (!result.hasErrors()) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword()));
@@ -57,6 +66,15 @@ public class UserController {
     @PostMapping("/user/update/{id}")
     public String updateUser(@PathVariable("id") Integer id, @Valid User user,
                              BindingResult result, Model model) {
+        // Validation personnalisée du mot de passe
+        String password = user.getPassword();
+        String passwordPattern = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+
+        if (!password.matches(passwordPattern)) {
+            result.rejectValue("password", "error.user",
+                    "Password must be at least 8 characters long, contain one uppercase letter, one digit and one special character");
+        }
+
         if (result.hasErrors()) {
             return "user/update";
         }

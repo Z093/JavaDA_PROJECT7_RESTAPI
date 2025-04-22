@@ -24,10 +24,10 @@ public class User {
 
     @NotBlank(message = "Password is mandatory")
     @Column(name = "password")
-    @Pattern(
+   /* @Pattern(
             regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
             message = "Password must be at least 8 characters long, contain one uppercase letter, one digit and one special character"
-    )
+    )*/
     private String password;
 
     @NotBlank(message = "FullName is mandatory")
